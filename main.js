@@ -658,11 +658,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (stickyAddCartBtn) {
-    stickyAddCartBtn.addEventListener("click", () => {
-      addToCart(1);
-    });
-  }
 
   function renderCart() {
     const totalCount = cart.reduce((acc, curr) => acc + curr.qty, 0);
@@ -825,6 +820,25 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (checkoutSummaryTotal) {
         checkoutSummaryTotal.textContent = `₹${(quantity * productData.price).toLocaleString("en-IN")}`;
+      }
+      openModal(checkoutModal);
+    });
+  }
+
+  // Sticky Mobile Bottom Bar "Order Now" Trigger
+  if (stickyAddCartBtn) {
+    stickyAddCartBtn.addEventListener("click", () => {
+      const orderQty = (typeof quantity === "number" && quantity > 0) ? quantity : 1;
+      quickOrderData = {
+        qty: orderQty,
+        price: productData.price,
+        title: productData.title
+      };
+      if (checkoutSummaryItems) {
+        checkoutSummaryItems.textContent = `${orderQty}x ${productData.title}`;
+      }
+      if (checkoutSummaryTotal) {
+        checkoutSummaryTotal.textContent = `₹${(orderQty * productData.price).toLocaleString("en-IN")}`;
       }
       openModal(checkoutModal);
     });

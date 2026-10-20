@@ -2906,10 +2906,11 @@ ul, ol {
     height: 40px;
   }
 
-  /* Keep header minimal: Logo + Cart + Menu */
+  /* Keep header minimal on mobile: Logo + Menu (Cart removed for mobile simplicity) */
   .nav-actions .open-lab-modal,
-  .nav-actions > .btn-primary {
-    display: none;
+  .nav-actions > .btn-primary,
+  .nav-actions .cart-btn-wrap {
+    display: none !important;
   }
 
   .mobile-menu-toggle {
