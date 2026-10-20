@@ -1917,6 +1917,15 @@ ul, ol {
   background: var(--color-ivory);
 }
 
+.testimonials-carousel-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.testimonials-carousel-nav {
+  display: none;
+}
+
 .testimonials-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -3206,12 +3215,165 @@ ul, ol {
     padding-top: 10px;
   }
 
-  .benefits-grid,
-  .testimonials-grid {
+  .benefits-grid {
     grid-template-columns: 1fr;
     max-width: 520px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  /* ==========================================
+     Testimonials Mobile Single-Slide Auto Carousel
+     ========================================== */
+  .testimonials-section {
+    padding: 56px 0 64px;
+    overflow: hidden;
+  }
+
+  .testimonials-carousel-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 30px auto 0 auto;
+    overflow: hidden;
+    padding: 6px 4px 10px 4px;
+  }
+
+  .testimonials-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    grid-template-columns: none !important;
+    gap: 0 !important;
+    margin-top: 0 !important;
+    max-width: none !important;
+    width: 100%;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .testimonials-grid.is-dragging {
+    transition: none !important;
+  }
+
+  .testimonial-card {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 26px 22px 22px 22px !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    min-height: 240px;
+    border-radius: 20px;
+    background: var(--color-white);
+    border: 1.5px solid rgba(229, 169, 59, 0.35);
+    box-shadow: 0 8px 24px rgba(34, 18, 5, 0.08);
+  }
+
+  /* Ensure slides are immediately visible with no reveal opacity block */
+  .testimonial-card[data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .testimonial-stars {
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+    color: #f59e0b;
+  }
+
+  .testimonial-quote {
+    font-size: 0.98rem;
+    line-height: 1.62;
+    margin-bottom: 18px;
+    color: var(--color-earth-900);
+  }
+
+  .testimonial-author {
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(229, 169, 59, 0.3);
+  }
+
+  .author-avatar {
+    width: 44px;
+    height: 44px;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+  }
+
+  .author-info strong {
+    font-size: 0.95rem;
+    display: block;
+    color: var(--color-earth-900);
+  }
+
+  .author-info span {
+    font-size: 0.78rem;
+    color: var(--color-earth-600);
+  }
+
+  /* Carousel Navigation Row */
+  .testimonials-carousel-nav {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 22px;
+  }
+
+  .testimonials-nav-arrow {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(229, 169, 59, 0.4);
+    background: var(--color-white);
+    color: var(--color-earth-800);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(34, 18, 5, 0.08);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .testimonials-nav-arrow:active {
+    background: var(--color-gold-50);
+    border-color: var(--color-gold-500);
+    color: var(--color-maroon-700);
+    transform: scale(0.92);
+  }
+
+  .testimonials-carousel-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .testimonials-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: rgba(184, 134, 11, 0.3);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .testimonials-dot.active {
+    width: 26px;
+    border-radius: 999px;
+    background: var(--color-maroon-700);
+    box-shadow: 0 2px 8px rgba(110, 16, 26, 0.3);
   }
 
   /* Horizontal swipeable pill filter bar */

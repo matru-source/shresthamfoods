@@ -1991,10 +1991,218 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* ==========================================================================
+     Testimonials Mobile Auto Carousel
+     ========================================================================== */
+  function initTestimonialsCarousel() {
+    const wrap = document.querySelector(".testimonials-carousel-wrap");
+    const track = document.getElementById("testimonials-grid");
+    if (!wrap || !track) return;
+
+    const cards = Array.from(track.querySelectorAll(".testimonial-card"));
+    const dotsContainer = document.getElementById("testimonials-dots");
+    const prevBtn = document.getElementById("testimonials-prev");
+    const nextBtn = document.getElementById("testimonials-next");
+
+    if (cards.length <= 1) return;
+
+    let currentIndex = 0;
+    let autoTimer = null;
+    const AUTOPLAY_INTERVAL = 4000; // 4 seconds per testimonial slide
+    let isMobile = window.innerWidth <= 768;
+
+    // Build pagination dots
+    if (dotsContainer) {
+      dotsContainer.innerHTML = "";
+      cards.forEach((_, idx) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = `testimonials-dot ${idx === 0 ? "active" : ""}`;
+        dot.setAttribute("aria-label", `Review ${idx + 1} of ${cards.length}`);
+        dot.setAttribute("role", "tab");
+        dot.setAttribute("aria-selected", idx === 0 ? "true" : "false");
+        dot.addEventListener("click", () => {
+          goToSlide(idx);
+          restartAutoPlay();
+        });
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function updateDots() {
+      if (!dotsContainer) return;
+      const dots = dotsContainer.querySelectorAll(".testimonials-dot");
+      dots.forEach((dot, idx) => {
+        const isActive = idx === currentIndex;
+        dot.classList.toggle("active", isActive);
+        dot.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+    }
+
+    function goToSlide(index) {
+      if (!isMobile) {
+        track.style.transform = "";
+        return;
+      }
+      if (index < 0) {
+        currentIndex = cards.length - 1;
+      } else if (index >= cards.length) {
+        currentIndex = 0;
+      } else {
+        currentIndex = index;
+      }
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      updateDots();
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      if (!isMobile) return;
+      autoTimer = setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, AUTOPLAY_INTERVAL);
+    }
+
+    function stopAutoPlay() {
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        autoTimer = null;
+      }
+    }
+
+    function restartAutoPlay() {
+      stopAutoPlay();
+      if (isMobile) {
+        startAutoPlay();
+      }
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => {
+        goToSlide(currentIndex - 1);
+        restartAutoPlay();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        goToSlide(currentIndex + 1);
+        restartAutoPlay();
+      });
+    }
+
+    // Pause on hover
+    wrap.addEventListener("mouseenter", stopAutoPlay);
+    wrap.addEventListener("mouseleave", () => {
+      if (isMobile) startAutoPlay();
+    });
+
+    // Touch Swipe Interactions
+    let startX = 0;
+    let startY = 0;
+    let currentX = 0;
+    let isSwiping = false;
+    let isHorizontal = null;
+
+    track.addEventListener("touchstart", (e) => {
+      if (!isMobile) return;
+      stopAutoPlay();
+      const touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+      currentX = startX;
+      isSwiping = true;
+      isHorizontal = null;
+      track.classList.add("is-dragging");
+    }, { passive: true });
+
+    track.addEventListener("touchmove", (e) => {
+      if (!isSwiping || !isMobile) return;
+      const touch = e.touches[0];
+      currentX = touch.clientX;
+      const diffX = currentX - startX;
+      const diffY = touch.clientY - startY;
+
+      if (isHorizontal === null) {
+        if (Math.abs(diffX) > 6 || Math.abs(diffY) > 6) {
+          isHorizontal = Math.abs(diffX) > Math.abs(diffY);
+        }
+      }
+
+      if (isHorizontal) {
+        const wrapWidth = wrap.clientWidth || 360;
+        const offsetPercent = (diffX / wrapWidth) * 100;
+        const currentTranslate = -currentIndex * 100;
+        track.style.transform = `translateX(${currentTranslate + offsetPercent}%)`;
+      }
+    }, { passive: true });
+
+    track.addEventListener("touchend", () => {
+      if (!isSwiping || !isMobile) return;
+      isSwiping = false;
+      track.classList.remove("is-dragging");
+
+      const diffX = currentX - startX;
+      const threshold = 40;
+
+      if (isHorizontal && Math.abs(diffX) > threshold) {
+        if (diffX < 0) {
+          goToSlide(currentIndex + 1);
+        } else {
+          goToSlide(currentIndex - 1);
+        }
+      } else {
+        goToSlide(currentIndex);
+      }
+
+      restartAutoPlay();
+    });
+
+    track.addEventListener("touchcancel", () => {
+      if (!isSwiping) return;
+      isSwiping = false;
+      track.classList.remove("is-dragging");
+      goToSlide(currentIndex);
+      restartAutoPlay();
+    });
+
+    // Pause when tab/screen is not visible
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopAutoPlay();
+      } else if (isMobile) {
+        startAutoPlay();
+      }
+    });
+
+    // Handle screen resize
+    window.addEventListener("resize", () => {
+      const wasMobile = isMobile;
+      isMobile = window.innerWidth <= 768;
+      if (isMobile !== wasMobile) {
+        if (isMobile) {
+          goToSlide(currentIndex);
+          startAutoPlay();
+        } else {
+          stopAutoPlay();
+          track.style.transform = "";
+        }
+      }
+    });
+
+    // Initial setup
+    if (isMobile) {
+      goToSlide(0);
+      startAutoPlay();
+    }
+  }
+
   // Initial runs
   updateProductView();
   renderCart();
   updateSubscriptionCalculator();
   initScrollReveal();
+  initTestimonialsCarousel();
 });
+
 
