@@ -6,12 +6,16 @@
 // ==========================================================================
 // Configurable Target WhatsApp & Orders Local Database Engine
 // ==========================================================================
-const DEFAULT_WHATSAPP_NUMBER = "919876543210";
+const DEFAULT_WHATSAPP_NUMBER = "919777221665";
 const ORDERS_STORAGE_KEY = "shrestham_orders";
 const WHATSAPP_STORAGE_KEY = "shrestham_store_whatsapp";
 
 function getStoreWhatsAppNumber() {
-  return localStorage.getItem(WHATSAPP_STORAGE_KEY) || DEFAULT_WHATSAPP_NUMBER;
+  const saved = localStorage.getItem(WHATSAPP_STORAGE_KEY);
+  if (saved && saved !== "919876543210") {
+    return saved;
+  }
+  return DEFAULT_WHATSAPP_NUMBER;
 }
 
 function setStoreWhatsAppNumber(num) {
@@ -401,7 +405,7 @@ document.addEventListener("DOMContentLoaded", () => {
       time: "35 mins",
       servings: "4 People",
       spice: "Bold Pungent",
-      image: "assets/fish curry.png",
+      image: "assets/recipies/fish curry.png",
       description: "A timeless Bengali masterpiece where succulent fish steaks are simmered in an aromatic freshly ground mustard paste gravy, enhanced by the raw pungent punch of cold-pressed Shrestham mustard oil.",
       ingredients: [
         "500g Fish fillets (Rohu, Katla or Hilsa)",
@@ -426,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
       time: "45 mins + Sun Cure",
       servings: "1.5 kg Jar",
       spice: "Bold & Tangy",
-      image: "assets/pickle.png",
+      image: "assets/recipies/pickle.png",
       description: "The classic raw green mango pickle that stays fresh, crunchy, and preservative-free for years thanks to the natural antibacterial properties of pure wood-pressed mustard oil.",
       ingredients: [
         "1 kg Firm raw green mangoes (washed, dried & cubed)",
@@ -452,7 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
       time: "1 hour 20 mins",
       servings: "5 People",
       spice: "Earthy & Rich",
-      image: "assets/sarson ka saag.png",
+      image: "assets/recipies/sarson ka saag.png",
       description: "The soul of winter dining. Fresh mustard greens slow-simmered with bathua and spinach, seasoned with garlic, ginger, and tempered in traditional wood-pressed mustard oil.",
       ingredients: [
         "500g Fresh tender mustard leaves (Sarson)",
@@ -983,6 +987,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (subCalcSubtotalDisplay) subCalcSubtotalDisplay.textContent = `₹${totalAmount.toLocaleString("en-IN")}`;
     if (subCalcSavingsDisplay) subCalcSavingsDisplay.textContent = `₹${monthlySavings.toLocaleString("en-IN")}`;
     if (subCalcGrandTotalDisplay) subCalcGrandTotalDisplay.textContent = `₹${totalAmount.toLocaleString("en-IN")}`;
+
+    // Update compact mobile live total displays
+    const subInlineCalcTotal = document.getElementById("sub-inline-calc-total");
+    const subMobileGrandTotal = document.getElementById("sub-mobile-grand-total");
+    const subMobileSavingBadge = document.getElementById("sub-mobile-saving-badge");
+    if (subInlineCalcTotal) subInlineCalcTotal.textContent = `₹${totalAmount.toLocaleString("en-IN")}`;
+    if (subMobileGrandTotal) subMobileGrandTotal.textContent = `₹${totalAmount.toLocaleString("en-IN")}`;
+    if (subMobileSavingBadge) subMobileSavingBadge.textContent = `Save ₹${monthlySavings.toLocaleString("en-IN")}`;
   }
 
   if (subQtyMinusBtn && subQtyPlusBtn && subQtyInput) {
@@ -1146,8 +1158,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const adminTogglePassBtn = document.getElementById("admin-toggle-pass-btn");
   const adminLoginCloseBtn = document.getElementById("admin-login-close-btn");
 
-  const VALID_ADMIN_IDS = ["admin", "shrestham", "owner"];
-  const DEFAULT_ADMIN_PASS = "admin123";
+  const VALID_ADMIN_IDS = ["shrestham"];
+  const DEFAULT_ADMIN_PASS = "@shrestham2026";
 
   function getAdminPassword() {
     return localStorage.getItem("shrestham_admin_pass") || DEFAULT_ADMIN_PASS;
@@ -1207,7 +1219,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const enteredPass = (adminLoginPass ? adminLoginPass.value : "");
       const validPass = getAdminPassword();
 
-      if (VALID_ADMIN_IDS.includes(enteredId) && (enteredPass === validPass || enteredPass === "admin123" || enteredPass === "shrestham2026")) {
+      if (VALID_ADMIN_IDS.includes(enteredId) && (enteredPass === validPass || enteredPass === "@shrestham2026")) {
         sessionStorage.setItem("shrestham_admin_auth", "true");
         if (adminLoginError) adminLoginError.style.display = "none";
         closeModal(adminLoginModal);
@@ -1679,7 +1691,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let buyerIdx = 0;
   function triggerSocialProof() {
-    if (!socialToast || socialDismissed) return;
+    if (!socialToast || socialDismissed || window.innerWidth <= 768) return;
     const buyer = buyers[buyerIdx];
     buyerIdx = (buyerIdx + 1) % buyers.length;
 
@@ -1881,7 +1893,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ".hero-stage-img",
       ".hero-visual-card",
       ".step-img-wrap",
-      ".recipe-image-wrap",
       ".benefit-icon-badge",
       ".author-avatar",
       ".hero-feature-item",

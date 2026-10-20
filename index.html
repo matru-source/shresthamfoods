@@ -48,7 +48,7 @@
       <div class="announcement-right">
         <span>🚚 Free Delivery On All Orders</span>
         <span class="ticker-sep">|</span>
-        <a href="tel:+919876543210" title="Customer Helpline">📞 +91 98765 43210</a>
+        <a href="tel:+919777221665" title="Customer Helpline">📞 +91 97772 21665</a>
       </div>
     </div>
   </aside>
@@ -537,7 +537,7 @@
             </div>
 
             <h3>Monthly Delivery Request Form</h3>
-            <p>Enter your contact and address details below. We will set up your monthly fresh press delivery cycle.</p>
+            <p class="sub-form-intro">Enter your contact and address details below. We will set up your monthly fresh press delivery cycle.</p>
 
             <form id="monthly-subscription-form">
               <div class="sub-form-grid">
@@ -550,7 +550,7 @@
                 <!-- Phone / WhatsApp -->
                 <div class="sub-form-group">
                   <label for="sub-phone" class="sub-form-label">Phone / WhatsApp Number *</label>
-                  <input type="tel" id="sub-phone" class="sub-form-input" placeholder="e.g. +91 98765 43210" required>
+                  <input type="tel" id="sub-phone" class="sub-form-input" placeholder="e.g. 9777221665" pattern="[0-9]{10}" title="Please enter a 10-digit mobile number" required>
                 </div>
 
                 <!-- Delivery Address -->
@@ -576,16 +576,16 @@
                 </div>
 
                 <!-- Monthly Quantity Selector -->
-                <div class="sub-form-group full-width">
-                  <label class="sub-form-label">Monthly Required Quantity (1 Litre Bottles)</label>
-                  <div style="display: flex; align-items: center; gap: 14px; margin-top: 4px;">
-                    <div class="qty-control" style="height: 48px;">
-                      <button type="button" class="qty-btn" id="sub-qty-minus">-</button>
+                <div class="sub-form-group full-width sub-qty-row">
+                  <label class="sub-form-label">Monthly Required Quantity (1L Bottles)</label>
+                  <div class="sub-qty-wrapper">
+                    <div class="qty-control sub-qty-ctrl">
+                      <button type="button" class="qty-btn" id="sub-qty-minus" aria-label="Decrease quantity">-</button>
                       <input type="number" id="sub-qty-input" class="qty-input" value="2" min="1" max="50" readonly>
-                      <button type="button" class="qty-btn" id="sub-qty-plus">+</button>
+                      <button type="button" class="qty-btn" id="sub-qty-plus" aria-label="Increase quantity">+</button>
                     </div>
-                    <span style="font-size: 0.9rem; color: var(--color-text-secondary);">
-                      x <strong>₹350</strong> per 1L bottle
+                    <span class="sub-qty-calc-note">
+                      x <strong>₹350</strong> / bottle = <strong id="sub-inline-calc-total" style="color: var(--color-maroon-800);">₹700</strong>
                     </span>
                   </div>
                 </div>
@@ -593,8 +593,18 @@
                 <!-- Special Notes / Instructions -->
                 <div class="sub-form-group full-width">
                   <label for="sub-notes" class="sub-form-label">Special Delivery Notes (Optional)</label>
-                  <textarea id="sub-notes" class="sub-form-textarea" placeholder="Any specific gate code, call before delivery, or instructions..."></textarea>
+                  <input type="text" id="sub-notes" class="sub-form-input" placeholder="e.g. Call before delivery, Gate code 1234">
                 </div>
+              </div>
+
+              <!-- Compact Live Summary Bar for Mobile & Desktop -->
+              <div class="sub-mobile-total-strip">
+                <div class="sub-mobile-total-left">
+                  <span class="sub-mobile-total-label">Monthly Total:</span>
+                  <strong id="sub-mobile-grand-total" class="sub-mobile-total-amount">₹700</strong>
+                  <span id="sub-mobile-saving-badge" class="sub-mobile-saving-badge">Save ₹40</span>
+                </div>
+                <span class="sub-mobile-free-badge">🚚 100% Free Delivery</span>
               </div>
 
               <button type="submit" class="btn btn-primary btn-subscribe-submit">
@@ -967,7 +977,7 @@
           <!-- Recipe 1: Kosha Murgi (New) -->
           <article class="recipe-card" data-region="bengal">
             <div class="recipe-image-wrap">
-              <img src="assets/recipies/kosha-murgi.jpg" alt="Kosha Murgi — Bengal" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/kosha-murgi.jpg" alt="Kosha Murgi — Bengal" class="recipe-image">
               <span class="recipe-tag">Bengal Heritage</span>
               <span class="recipe-style-tag">Dark Brass-Bowl Concept</span>
             </div>
@@ -989,7 +999,7 @@
           <!-- Recipe 2: Aloo Posto (New) -->
           <article class="recipe-card" data-region="bengal">
             <div class="recipe-image-wrap">
-              <img src="assets/recipies/aloo-posto.jpg" alt="Aloo Posto — West Bengal" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/aloo-posto.jpg" alt="Aloo Posto — West Bengal" class="recipe-image">
               <span class="recipe-tag">West Bengal Classic</span>
               <span class="recipe-style-tag">Minimal Editorial Concept</span>
             </div>
@@ -1011,7 +1021,7 @@
           <!-- Recipe 3: Chana Dal with Mustard Tadka (New) -->
           <article class="recipe-card" data-region="bengal">
             <div class="recipe-image-wrap">
-              <img src="assets/recipies/chana-dal.jpg" alt="Chana Dal with Mustard Tadka — Bengal" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/chana-dal.jpg" alt="Chana Dal with Mustard Tadka — Bengal" class="recipe-image">
               <span class="recipe-tag">Bengal Comfort</span>
               <span class="recipe-style-tag">Warm Macro Concept</span>
             </div>
@@ -1033,7 +1043,7 @@
           <!-- Recipe 4: Chingudi Besara (New) -->
           <article class="recipe-card" data-region="odisha-jharkhand">
             <div class="recipe-image-wrap">
-              <img src="assets/recipies/chingudi-besara.jpg" alt="Chingudi Besara — Odisha" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/chingudi-besara.jpg" alt="Chingudi Besara — Odisha" class="recipe-image">
               <span class="recipe-tag">Odisha Coastal</span>
               <span class="recipe-style-tag">Coastal Blue & Gold</span>
             </div>
@@ -1055,7 +1065,7 @@
           <!-- Recipe 5: Shorshe Shobji (New) -->
           <article class="recipe-card" data-region="bengal">
             <div class="recipe-image-wrap">
-              <img src="assets/recipies/shorshe-shobji.jpg" alt="Shorshe Shobji — Bengal" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/shorshe-shobji.jpg" alt="Shorshe Shobji — Bengal" class="recipe-image">
               <span class="recipe-tag">Bengal Seasonal</span>
               <span class="recipe-style-tag">Overhead Flat-Lay Concept</span>
             </div>
@@ -1077,7 +1087,7 @@
           <!-- Recipe 6: Luchi and Aloo Dum (New) -->
           <article class="recipe-card" data-region="bengal">
             <div class="recipe-image-wrap">
-              <img src="assets/recipies/luchi-aloo-dum.jpg" alt="Luchi and Aloo Dum — Bengal" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/luchi-aloo-dum.jpg" alt="Luchi and Aloo Dum — Bengal" class="recipe-image">
               <span class="recipe-tag">Bengal Festive</span>
               <span class="recipe-style-tag">Festive Overhead Concept</span>
             </div>
@@ -1099,7 +1109,7 @@
           <!-- Recipe 7: Desi Mutton Curry (New) -->
           <article class="recipe-card" data-region="odisha-jharkhand">
             <div class="recipe-image-wrap">
-              <img src="assets/recipies/desi-mutton-curry.jpg" alt="Desi Mutton Curry — Jharkhand" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/desi-mutton-curry.jpg" alt="Desi Mutton Curry — Jharkhand" class="recipe-image">
               <span class="recipe-tag">Jharkhand Rustic</span>
               <span class="recipe-style-tag">Village Handi Concept</span>
             </div>
@@ -1121,7 +1131,7 @@
           <!-- Recipe 8: Kerala-Style Fish Fry (New) -->
           <article class="recipe-card" data-region="coastal">
             <div class="recipe-image-wrap">
-              <img src="assets/recipies/kerala-fish-fry.jpg" alt="Kerala-Style Fish Fry — Kerala" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/kerala-fish-fry.jpg" alt="Kerala-Style Fish Fry — Kerala" class="recipe-image">
               <span class="recipe-tag">Kerala Coastal</span>
               <span class="recipe-style-tag">Tropical Leaf Concept</span>
             </div>
@@ -1143,7 +1153,7 @@
           <!-- Recipe 9: Panta Bhat (New) -->
           <article class="recipe-card" data-region="bengal">
             <div class="recipe-image-wrap">
-              <img src="assets/recipies/panta-bhat.jpg" alt="Panta Bhat — Rural Bengal" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/panta-bhat.jpg" alt="Panta Bhat — Rural Bengal" class="recipe-image">
               <span class="recipe-tag">Rural Bengal Classic</span>
               <span class="recipe-style-tag">Natural Daylight Concept</span>
             </div>
@@ -1165,7 +1175,7 @@
           <!-- Recipe 10: Shorshe Maach (Heritage Classic) -->
           <article class="recipe-card" data-region="bengal">
             <div class="recipe-image-wrap">
-              <img src="assets/fish curry.png" alt="Bengali Shorshe Maach" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/fish curry.png" alt="Bengali Shorshe Maach" class="recipe-image">
               <span class="recipe-tag">Bengali Heritage</span>
               <span class="recipe-style-tag">Classic Brass Thali</span>
             </div>
@@ -1187,7 +1197,7 @@
           <!-- Recipe 11: Aam Ka Achar (Heritage Classic) -->
           <article class="recipe-card" data-region="punjab-north">
             <div class="recipe-image-wrap">
-              <img src="assets/pickle.png" alt="Dadi Ma's Traditional Aam Ka Achar" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/pickle.png" alt="Dadi Ma's Traditional Aam Ka Achar" class="recipe-image">
               <span class="recipe-tag">Pickle Heritage</span>
               <span class="recipe-style-tag">Sunlit Martaban Concept</span>
             </div>
@@ -1209,7 +1219,7 @@
           <!-- Recipe 12: Sarson Ka Saag (Heritage Classic) -->
           <article class="recipe-card" data-region="punjab-north">
             <div class="recipe-image-wrap">
-              <img src="assets/sarson ka saag.png" alt="Punjabi Sarson Ka Saag" class="recipe-image" loading="lazy">
+              <img src="assets/recipies/sarson ka saag.png" alt="Punjabi Sarson Ka Saag" class="recipe-image">
               <span class="recipe-tag">Winter Soul Food</span>
               <span class="recipe-style-tag">Rustic Cast-Iron Concept</span>
             </div>
@@ -1486,7 +1496,7 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
-              <span>+91 98765 43210</span>
+              <span><a href="tel:+919777221665" style="color: inherit; text-decoration: none;">+91 97772 21665</a></span>
             </div>
             <div class="footer-contact-item">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1784,7 +1794,7 @@
           </div>
           <div class="sub-form-group full-width">
             <label class="sub-form-label" for="checkout-phone">WhatsApp Phone Number *</label>
-            <input type="tel" id="checkout-phone" class="sub-form-input" placeholder="e.g. 9876543210" pattern="[0-9]{10}" title="Please enter a 10-digit mobile number" required>
+            <input type="tel" id="checkout-phone" class="sub-form-input" placeholder="e.g. 9777221665" pattern="[0-9]{10}" title="Please enter a 10-digit mobile number" required>
           </div>
           <div class="sub-form-group full-width">
             <label class="sub-form-label" for="checkout-address">Complete Delivery Address *</label>
@@ -1844,7 +1854,7 @@
 
         <div class="sub-form-group" style="margin-bottom: 14px;">
           <label class="sub-form-label" for="admin-login-id">Admin Username / ID</label>
-          <input type="text" id="admin-login-id" class="sub-form-input" placeholder="e.g. admin" required autocomplete="username">
+          <input type="text" id="admin-login-id" class="sub-form-input" placeholder="e.g. shrestham" required autocomplete="username">
         </div>
 
         <div class="sub-form-group" style="margin-bottom: 20px;">
@@ -1903,7 +1913,7 @@
             <span style="font-size: 0.78rem; color: #2e7d32;">Customer orders will instantly open WhatsApp to this phone number</span>
           </div>
           <div style="display: flex; align-items: center; gap: 8px; margin-left: 6px;">
-            <input type="text" id="admin-whatsapp-input" value="919876543210" style="padding: 7px 12px; border: 1.5px solid #81c784; border-radius: 6px; font-weight: 700; width: 165px; font-size: 0.9rem;" placeholder="e.g. 919876543210">
+            <input type="text" id="admin-whatsapp-input" value="919777221665" style="padding: 7px 12px; border: 1.5px solid #81c784; border-radius: 6px; font-weight: 700; width: 165px; font-size: 0.9rem;" placeholder="e.g. 919777221665">
             <button type="button" id="admin-save-phone-btn" class="btn btn-primary" style="padding: 7px 14px; font-size: 0.82rem; background: #2e7d32; border-color: #1b5e20;">Save Phone</button>
           </div>
         </div>
