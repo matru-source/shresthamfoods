@@ -144,8 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   let quantity = 1;
-  let cart = [];
-  let appliedDiscount = 0; // percentage
 
   // ==========================================
   // 360 Degree Product Angle Data
@@ -489,20 +487,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const qtyMinusBtn = document.getElementById("qty-minus");
   const qtyPlusBtn = document.getElementById("qty-plus");
   const addToCartBtn = document.getElementById("btn-add-to-cart");
-  const cartToggleBtn = document.getElementById("cart-toggle-btn");
-  const cartDrawer = document.getElementById("cart-drawer");
-  const cartBackdrop = document.getElementById("cart-backdrop");
-  const cartCloseBtn = document.getElementById("cart-close-btn");
-  const cartItemsContainer = document.getElementById("cart-items-container");
-  const cartSubtotalEl = document.getElementById("cart-subtotal");
-  const cartDiscountRow = document.getElementById("cart-discount-row");
-  const cartDiscountAmountEl = document.getElementById("cart-discount-amount");
-  const cartShippingEl = document.getElementById("cart-shipping");
-  const cartGrandTotalEl = document.getElementById("cart-grand-total");
-  const cartCountBadges = document.querySelectorAll(".cart-count-badge");
-  const couponInput = document.getElementById("coupon-input");
-  const applyCouponBtn = document.getElementById("apply-coupon-btn");
-  const checkoutBtn = document.getElementById("checkout-btn");
 
   // 360 Viewer Elements
   const viewerImg = document.getElementById("viewer-360-img");
@@ -563,6 +547,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentPriceEl) currentPriceEl.textContent = `₹${totalPrice.toLocaleString("en-IN")}`;
     if (mrpPriceEl) mrpPriceEl.textContent = `₹${totalMrp.toLocaleString("en-IN")}`;
     if (discountBadgeEl) discountBadgeEl.textContent = productData.discount;
+
+    const btnOrderText = document.getElementById("btn-order-text");
+    if (btnOrderText) {
+      btnOrderText.textContent = `Order Now (₹${totalPrice.toLocaleString("en-IN")}) →`;
+    }
 
     if (stickyPriceEl) {
       stickyPriceEl.textContent = `₹${unitPrice}`;
@@ -629,175 +618,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // Shopping Cart Logic
-  // ==========================================
-  function addToCart(qty) {
-    const existingIndex = cart.findIndex(item => item.sku === productData.sku);
-
-    if (existingIndex > -1) {
-      cart[existingIndex].qty += qty;
-    } else {
-      cart.push({
-        sku: productData.sku,
-        title: productData.title,
-        price: productData.price,
-        mrp: productData.mrp,
-        image: productData.image,
-        qty: qty
-      });
-    }
-
-    renderCart();
-    openCart();
-    showToast(`Added ${qty}x ${productData.title} to your kitchen cart! 🌿`);
-  }
-
-  if (addToCartBtn) {
-    addToCartBtn.addEventListener("click", () => {
-      addToCart(quantity);
-    });
-  }
-
-
-  function renderCart() {
-    const totalCount = cart.reduce((acc, curr) => acc + curr.qty, 0);
-    cartCountBadges.forEach(badge => {
-      badge.textContent = totalCount;
-      badge.style.display = totalCount > 0 ? "flex" : "none";
-    });
-
-    const cartDrawerBadge = document.getElementById("cart-drawer-badge");
-    if (cartDrawerBadge) {
-      cartDrawerBadge.textContent = totalCount;
-    }
-
-    if (cart.length === 0) {
-      cartItemsContainer.innerHTML = `
-        <div class="cart-empty-state">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <path d="M16 10a4 4 0 0 1-8 0"/>
-          </svg>
-          <p>Your pantry cart is currently empty.</p>
-          <button class="btn btn-primary" onclick="document.getElementById('product-section').scrollIntoView({behavior: 'smooth'}); closeCart();" style="margin-top: 14px; font-size: 0.88rem; padding: 10px 22px;">Explore Fresh Oils</button>
-        </div>
-      `;
-      if (cartSubtotalEl) cartSubtotalEl.textContent = "₹0";
-      if (cartGrandTotalEl) cartGrandTotalEl.textContent = "₹0";
-      if (cartShippingEl) {
-        cartShippingEl.textContent = "FREE";
-        cartShippingEl.style.color = "var(--color-green-600)";
-        cartShippingEl.style.fontWeight = "700";
-      }
-      if (cartDiscountRow) cartDiscountRow.style.display = "none";
-      return;
-    }
-
-    let subtotal = 0;
-    cartItemsContainer.innerHTML = "";
-
-    cart.forEach((item, idx) => {
-      const itemTotal = item.price * item.qty;
-      subtotal += itemTotal;
-
-      const itemRow = document.createElement("div");
-      itemRow.className = "cart-item-row";
-      itemRow.innerHTML = `
-        <img src="${item.image}" alt="${item.title}" class="cart-item-img">
-        <div class="cart-item-info">
-          <h4>${item.title}</h4>
-          <span>₹${item.price} per bottle</span>
-          <div style="display: flex; align-items: center; gap: 8px; margin-top: 6px;">
-            <button class="qty-btn" style="width: 26px; height: 26px; border-radius: 4px; font-size: 0.85rem;" data-action="decrease" data-idx="${idx}">-</button>
-            <span style="font-weight: 700; font-size: 0.9rem;">${item.qty}</span>
-            <button class="qty-btn" style="width: 26px; height: 26px; border-radius: 4px; font-size: 0.85rem;" data-action="increase" data-idx="${idx}">+</button>
-          </div>
-        </div>
-        <div style="text-align: right;">
-          <div class="cart-item-price">₹${itemTotal.toLocaleString("en-IN")}</div>
-          <button class="cart-item-remove" data-action="remove" data-idx="${idx}" title="Remove item">&times;</button>
-        </div>
-      `;
-      cartItemsContainer.appendChild(itemRow);
-    });
-
-    // Calculations - 100% Free express shipping across India as guaranteed on landing page
-    const shipping = 0;
-    const discountAmount = Math.round(subtotal * (appliedDiscount / 100));
-    const grandTotal = subtotal - discountAmount + shipping;
-
-    if (cartSubtotalEl) cartSubtotalEl.textContent = `₹${subtotal.toLocaleString("en-IN")}`;
-    if (cartShippingEl) {
-      cartShippingEl.textContent = "FREE";
-      cartShippingEl.style.color = "var(--color-green-600)";
-      cartShippingEl.style.fontWeight = "700";
-    }
-
-    if (appliedDiscount > 0) {
-      if (cartDiscountRow) cartDiscountRow.style.display = "flex";
-      if (cartDiscountAmountEl) cartDiscountAmountEl.textContent = `-₹${discountAmount.toLocaleString("en-IN")} (${appliedDiscount}% OFF)`;
-    } else {
-      if (cartDiscountRow) cartDiscountRow.style.display = "none";
-    }
-
-    if (cartGrandTotalEl) cartGrandTotalEl.textContent = `₹${grandTotal.toLocaleString("en-IN")}`;
-
-    // Item events
-    cartItemsContainer.querySelectorAll("button[data-action]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const action = btn.getAttribute("data-action");
-        const idx = parseInt(btn.getAttribute("data-idx"), 10);
-        if (action === "increase") {
-          cart[idx].qty++;
-        } else if (action === "decrease") {
-          if (cart[idx].qty > 1) {
-            cart[idx].qty--;
-          } else {
-            cart.splice(idx, 1);
-          }
-        } else if (action === "remove") {
-          cart.splice(idx, 1);
-        }
-        renderCart();
-      });
-    });
-  }
-
-  function openCart() {
-    if (cartDrawer) cartDrawer.classList.add("active");
-    if (cartBackdrop) cartBackdrop.classList.add("active");
-    document.body.style.overflow = "hidden";
-  }
-
-  function closeCart() {
-    if (cartDrawer) cartDrawer.classList.remove("active");
-    if (cartBackdrop) cartBackdrop.classList.remove("active");
-    document.body.style.overflow = "";
-  }
-
-  if (cartToggleBtn) cartToggleBtn.addEventListener("click", openCart);
-  if (cartCloseBtn) cartCloseBtn.addEventListener("click", closeCart);
-  if (cartBackdrop) cartBackdrop.addEventListener("click", closeCart);
-
-  // Promo Code
-  if (applyCouponBtn && couponInput) {
-    applyCouponBtn.addEventListener("click", () => {
-      const code = couponInput.value.trim().toUpperCase();
-      if (code === "SHRESTHAM15" || code === "PURE15") {
-        appliedDiscount = 15;
-        showToast("Coupon Applied! 15% discount has been deducted 🎉");
-        renderCart();
-      } else if (code === "") {
-        showToast("Please enter a coupon code");
-      } else {
-        showToast("Invalid code. Try using 'SHRESTHAM15' for 15% off!");
-      }
-    });
-  }
-
-  // ==========================================
-  // Quick Checkout Modal & WhatsApp Order Flow
+  // Direct Product Ordering & WhatsApp Checkout Flow
   // ==========================================
   const checkoutModal = document.getElementById("checkout-modal");
   const checkoutForm = document.getElementById("checkout-form");
@@ -807,62 +628,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let quickOrderData = null;
 
-  // Direct "Instant Order on WhatsApp" from Product Showcase
+  function triggerDirectCheckout(qty = 1) {
+    const orderQty = (typeof qty === "number" && qty > 0) ? qty : (quantity || 1);
+    quickOrderData = {
+      qty: orderQty,
+      price: productData.price,
+      title: productData.title
+    };
+    if (checkoutSummaryItems) {
+      checkoutSummaryItems.textContent = `${orderQty}x ${productData.title}`;
+    }
+    if (checkoutSummaryTotal) {
+      checkoutSummaryTotal.textContent = `₹${(orderQty * productData.price).toLocaleString("en-IN")}`;
+    }
+    openModal(checkoutModal);
+  }
+
+  // Primary "Order Now" button on Product Showcase
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", () => {
+      triggerDirectCheckout(quantity);
+    });
+  }
+
+  // "Instant Order on WhatsApp" on Product Showcase
   if (btnQuickWhatsAppOrder) {
     btnQuickWhatsAppOrder.addEventListener("click", () => {
-      quickOrderData = {
-        qty: quantity,
-        price: productData.price,
-        title: productData.title
-      };
-      if (checkoutSummaryItems) {
-        checkoutSummaryItems.textContent = `${quantity}x ${productData.title}`;
-      }
-      if (checkoutSummaryTotal) {
-        checkoutSummaryTotal.textContent = `₹${(quantity * productData.price).toLocaleString("en-IN")}`;
-      }
-      openModal(checkoutModal);
+      triggerDirectCheckout(quantity);
     });
   }
 
   // Sticky Mobile Bottom Bar "Order Now" Trigger
   if (stickyAddCartBtn) {
     stickyAddCartBtn.addEventListener("click", () => {
-      const orderQty = (typeof quantity === "number" && quantity > 0) ? quantity : 1;
-      quickOrderData = {
-        qty: orderQty,
-        price: productData.price,
-        title: productData.title
-      };
-      if (checkoutSummaryItems) {
-        checkoutSummaryItems.textContent = `${orderQty}x ${productData.title}`;
-      }
-      if (checkoutSummaryTotal) {
-        checkoutSummaryTotal.textContent = `₹${(orderQty * productData.price).toLocaleString("en-IN")}`;
-      }
-      openModal(checkoutModal);
-    });
-  }
-
-  // Cart Drawer Checkout Trigger
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", () => {
-      if (cart.length === 0) {
-        showToast("Your pantry cart is currently empty!");
-        return;
-      }
-      quickOrderData = null; // Use cart items
-      closeCart();
-
-      const subtotal = cart.reduce((acc, curr) => acc + curr.price * curr.qty, 0);
-      const discountAmount = Math.round(subtotal * (appliedDiscount / 100));
-      const grandTotal = subtotal - discountAmount;
-      const itemsList = cart.map(item => `${item.qty}x ${item.title}`).join(", ");
-
-      if (checkoutSummaryItems) checkoutSummaryItems.textContent = itemsList;
-      if (checkoutSummaryTotal) checkoutSummaryTotal.textContent = `₹${grandTotal.toLocaleString("en-IN")}`;
-
-      openModal(checkoutModal);
+      triggerDirectCheckout(quantity || 1);
     });
   }
 
@@ -877,26 +676,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const pincode = document.getElementById("checkout-pincode").value.trim();
       const paymentMethod = document.getElementById("checkout-payment").value;
 
-      let itemsText = "";
-      let grandTotal = 0;
-
-      if (quickOrderData) {
-        itemsText = `• ${quickOrderData.qty}x ${quickOrderData.title} (₹${quickOrderData.qty * quickOrderData.price})`;
-        grandTotal = quickOrderData.qty * quickOrderData.price;
-        quickOrderData = null;
-      } else {
-        const subtotal = cart.reduce((acc, curr) => acc + curr.price * curr.qty, 0);
-        const discountAmount = Math.round(subtotal * (appliedDiscount / 100));
-        grandTotal = subtotal - discountAmount;
-        itemsText = cart.map(item => `• ${item.qty}x ${item.title} (₹${item.price * item.qty})`).join("\n");
-      }
+      const orderQty = quickOrderData ? quickOrderData.qty : (quantity || 1);
+      const unitPrice = quickOrderData ? quickOrderData.price : productData.price;
+      const productTitle = quickOrderData ? quickOrderData.title : productData.title;
+      const grandTotal = orderQty * unitPrice;
+      const itemsText = `• ${orderQty}x ${productTitle} (₹${grandTotal.toLocaleString("en-IN")})`;
+      quickOrderData = null;
 
       const orderId = "ORD-" + Math.floor(100000 + Math.random() * 900000);
 
-      const cartOrder = {
+      const bottleOrder = {
         id: orderId,
-        type: "cart",
-        typeLabel: "Pantry Cart",
+        type: "bottle",
+        typeLabel: "Direct Order",
         customerName: name,
         phone: phone,
         address: address,
@@ -909,8 +701,8 @@ document.addEventListener("DOMContentLoaded", () => {
         date: new Date().toLocaleDateString("en-IN") + " " + new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })
       };
 
-      saveOrder(cartOrder);
-      const whatsappUrl = generateCartWhatsAppUrl(cartOrder);
+      saveOrder(bottleOrder);
+      const whatsappUrl = generateCartWhatsAppUrl(bottleOrder);
 
       // Open WhatsApp automatically
       window.open(whatsappUrl, "_blank");
@@ -918,10 +710,7 @@ document.addEventListener("DOMContentLoaded", () => {
       closeModal(checkoutModal);
       checkoutForm.reset();
 
-      cart = [];
-      renderCart();
-
-      showCartOrderConfirmation(cartOrder, whatsappUrl);
+      showCartOrderConfirmation(bottleOrder, whatsappUrl);
     });
   }
 
@@ -1309,7 +1098,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Stats calculations
     const totalCount = orders.length;
     const subCount = orders.filter(o => o.type === "subscription").length;
-    const cartCount = orders.filter(o => o.type === "cart").length;
+    const bottleCount = orders.filter(o => o.type !== "subscription").length;
     const totalRevenue = orders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
 
     const statTotalEl = document.getElementById("admin-stat-total");
@@ -1320,21 +1109,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (statTotalEl) statTotalEl.textContent = totalCount;
     if (statRevEl) statRevEl.textContent = `₹${totalRevenue.toLocaleString("en-IN")}`;
     if (statSubsEl) statSubsEl.textContent = subCount;
-    if (statCartEl) statCartEl.textContent = cartCount;
+    if (statCartEl) statCartEl.textContent = bottleCount;
 
     const tabAll = document.getElementById("tab-count-all");
     const tabSub = document.getElementById("tab-count-sub");
     const tabCart = document.getElementById("tab-count-cart");
     if (tabAll) tabAll.textContent = totalCount;
     if (tabSub) tabSub.textContent = subCount;
-    if (tabCart) tabCart.textContent = cartCount;
+    if (tabCart) tabCart.textContent = bottleCount;
 
     // Filter by Tab
     let filtered = orders;
     if (currentAdminFilter === "subscription") {
       filtered = filtered.filter(o => o.type === "subscription");
-    } else if (currentAdminFilter === "cart") {
-      filtered = filtered.filter(o => o.type === "cart");
+    } else if (currentAdminFilter === "bottle" || currentAdminFilter === "cart") {
+      filtered = filtered.filter(o => o.type !== "subscription");
     }
 
     // Filter by Search Query
@@ -1361,7 +1150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     adminOrdersContainer.innerHTML = filtered.map(o => {
       const isSub = o.type === "subscription";
-      const badgeClass = isSub ? "badge-sub" : "badge-cart";
+      const badgeClass = isSub ? "badge-sub" : "badge-bottle";
       const cleanCustomerPhone = o.phone ? o.phone.replace(/\D/g, "") : "";
       const waMsg = encodeURIComponent(`Hello ${o.customerName}, this is Shrestham Wood Pressed Mustard Oil regarding your Order #${o.id}.`);
       const waLink = `https://wa.me/91${cleanCustomerPhone.slice(-10)}?text=${waMsg}`;
@@ -1371,7 +1160,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div>
             <strong style="color: var(--color-maroon-800); font-size: 0.95rem;">#${o.id}</strong>
             <span style="display: block; font-size: 0.74rem; color: var(--color-text-muted);">${o.date}</span>
-            <span class="admin-order-type-badge ${badgeClass}">${o.typeLabel || (isSub ? "Subscription" : "Cart")}</span>
+            <span class="admin-order-type-badge ${badgeClass}">${o.typeLabel || (isSub ? "Subscription" : "Direct Order")}</span>
           </div>
 
           <div>
@@ -1603,7 +1392,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
       modalOverlays.forEach(m => closeModal(m));
-      closeCart();
     }
   });
 
@@ -1811,7 +1599,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function initScrollReveal() {
     const EXCLUDED_SELECTORS = [
       "#recipe-modal", "#lab-cert-modal", "#process-modal", "#admin-portal-modal",
-      ".modal-overlay", ".modal-box", ".cart-drawer", ".cart-drawer-backdrop",
+      ".modal-overlay", ".modal-box",
       ".product-pop-bottle", "#social-proof-toast", ".announcement-bar", 
       ".site-header", ".sticky-mobile-bar", "#toast-container"
     ];
@@ -2213,7 +2001,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial runs
   updateProductView();
-  renderCart();
   updateSubscriptionCalculator();
   initScrollReveal();
   initTestimonialsCarousel();

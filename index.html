@@ -89,17 +89,6 @@
           Lab Report
         </button>
 
-        <!-- Cart Button -->
-        <div class="cart-btn-wrap">
-          <button class="btn-pill-icon" id="cart-toggle-btn" title="View Cart">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="9" cy="21" r="1"/>
-              <circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            </svg>
-            <span class="cart-count-badge" id="nav-cart-count">0</span>
-          </button>
-        </div>
 
         <!-- Primary CTA -->
         <a href="#product-section" class="btn btn-primary" style="padding: 10px 22px; font-size: 0.88rem;">
@@ -449,7 +438,7 @@
               </div>
             </div>
 
-            <!-- Quantity & Add to Cart -->
+            <!-- Quantity & Direct Order -->
             <div class="purchase-action-row">
               <div class="qty-control">
                 <button class="qty-btn" id="qty-minus" aria-label="Decrease Quantity">-</button>
@@ -457,16 +446,15 @@
                 <button class="qty-btn" id="qty-plus" aria-label="Increase Quantity">+</button>
               </div>
 
-              <button class="btn btn-primary btn-add-cart" id="btn-add-to-cart">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="9" cy="21" r="1"/>
-                  <circle cx="20" cy="21" r="1"/>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              <button class="btn btn-primary btn-order-direct" id="btn-add-to-cart">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
-                Add To Kitchen Cart (₹370)
+                <span id="btn-order-text">Order Now (₹370) →</span>
               </button>
 
-              <button type="button" class="btn btn-whatsapp-order" id="btn-quick-whatsapp-order" title="Order directly on WhatsApp without opening cart">
+              <button type="button" class="btn btn-whatsapp-order" id="btn-quick-whatsapp-order" title="Order directly on WhatsApp">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2z"/>
                 </svg>
@@ -1539,54 +1527,6 @@
     </div>
   </footer>
 
-  <!-- ==========================================
-       Slide-In Shopping Cart Drawer
-       ========================================== -->
-  <div class="cart-drawer-backdrop" id="cart-backdrop"></div>
-  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping Cart">
-    <div class="cart-drawer-header">
-      <div class="cart-drawer-title-group">
-        <h3>Your Pantry Cart</h3>
-        <span class="cart-drawer-badge" id="cart-drawer-badge">0</span>
-      </div>
-      <button class="modal-close-btn" id="cart-close-btn" aria-label="Close cart">&times;</button>
-    </div>
-
-    <div class="cart-drawer-body" id="cart-items-container">
-      <!-- Populated via main.js -->
-    </div>
-
-    <div class="cart-drawer-footer">
-      <div class="cart-coupon-wrap">
-        <input type="text" id="coupon-input" class="cart-coupon-input" placeholder="Coupon (e.g. SHRESTHAM15)">
-        <button class="btn btn-secondary" id="apply-coupon-btn" style="padding: 8px 16px; font-size: 0.85rem;">Apply</button>
-      </div>
-
-      <div class="cart-totals-row">
-        <span>Cart Subtotal:</span>
-        <strong id="cart-subtotal">₹0</strong>
-      </div>
-      <div class="cart-totals-row" id="cart-discount-row" style="display: none; color: var(--color-green-600);">
-        <span>Special Coupon Discount:</span>
-        <strong id="cart-discount-amount">-₹0</strong>
-      </div>
-      <div class="cart-totals-row">
-        <span>Shipping & Handling:</span>
-        <span id="cart-shipping">FREE</span>
-      </div>
-      <div class="cart-totals-row grand-total">
-        <span>Total Payable:</span>
-        <span id="cart-grand-total">₹0</span>
-      </div>
-
-      <button class="btn btn-primary" id="checkout-btn" style="width: 100%; margin-top: 16px; padding: 14px; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2z"/>
-        </svg>
-        <span>Proceed to WhatsApp Checkout 💬</span>
-      </button>
-    </div>
-  </aside>
 
   <!-- ==========================================
        Interactive Lab Certificate Modal
@@ -1730,7 +1670,7 @@
   </aside>
 
   <!-- ==========================================
-       Live Social Proof Purchase Toast (Illustrated Cart Card)
+       Live Social Proof Purchase Toast (Illustrated Order Card)
        ========================================== -->
   <aside class="social-proof-toast" id="social-proof-toast" aria-live="polite">
     <button class="social-proof-close" id="social-proof-close-btn" aria-label="Close notification" title="Dismiss">&times;</button>
@@ -1959,7 +1899,7 @@
           <strong class="stat-val" id="admin-stat-subs" style="color: var(--color-green-700);">0</strong>
         </div>
         <div class="admin-stat-card">
-          <span class="stat-label">Pantry Cart Orders</span>
+          <span class="stat-label">Direct Bottle Orders</span>
           <strong class="stat-val" id="admin-stat-cart" style="color: var(--color-gold-700);">0</strong>
         </div>
       </div>
@@ -1969,7 +1909,7 @@
         <div class="admin-tabs">
           <button class="admin-tab active" data-filter="all">All Orders (<span id="tab-count-all">0</span>)</button>
           <button class="admin-tab" data-filter="subscription">Subscriptions (<span id="tab-count-sub">0</span>)</button>
-          <button class="admin-tab" data-filter="cart">Cart Orders (<span id="tab-count-cart">0</span>)</button>
+          <button class="admin-tab" data-filter="bottle">Direct Orders (<span id="tab-count-cart">0</span>)</button>
         </div>
         <input type="text" id="admin-search-input" class="admin-search-input" placeholder="🔍 Search by name, phone, city, or Order ID...">
       </div>
