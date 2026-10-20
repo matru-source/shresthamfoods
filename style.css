@@ -1038,21 +1038,23 @@ ul, ol {
 
 .product-batch-tag {
   position: absolute;
-  top: 18px;
-  left: 18px;
+  top: 16px;
+  left: 16px;
   background: var(--color-maroon-700);
   color: var(--color-white);
-  padding: 6px 14px;
+  padding: 5px 12px;
   border-radius: var(--radius-full);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  box-shadow: var(--shadow-sm);
-  z-index: 2;
+  gap: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 8;
+  white-space: nowrap;
+  max-width: max-content;
 }
 
 .product-view-tag-btn {
@@ -3264,35 +3266,36 @@ ul, ol {
   }
 
   .product-stage-card {
-    height: 380px;
+    height: 390px;
     max-width: 360px;
-    margin: 24px auto 12px;
+    margin: 24px auto 14px;
   }
 
   .product-pop-bottle {
-    max-height: 300px;
+    max-height: 330px;
+    max-width: 85%;
   }
 
   @keyframes bottleAirFloatMobile {
     0% {
-      transform: translate(24px, -55px) rotate(32deg) scale(1.26);
-      filter: drop-shadow(0 24px 34px rgba(18, 9, 4, 0.65))
-              drop-shadow(0 10px 20px rgba(229, 169, 59, 0.45));
+      transform: translate(28px, -52px) rotate(30deg) scale(1.38);
+      filter: drop-shadow(0 28px 40px rgba(18, 9, 4, 0.65))
+              drop-shadow(0 12px 24px rgba(229, 169, 59, 0.45));
     }
     50% {
-      transform: translate(24px, -66px) rotate(32.5deg) scale(1.27);
-      filter: drop-shadow(0 34px 44px rgba(18, 9, 4, 0.52))
-              drop-shadow(0 14px 24px rgba(229, 169, 59, 0.55));
+      transform: translate(28px, -64px) rotate(30.6deg) scale(1.40);
+      filter: drop-shadow(0 38px 50px rgba(18, 9, 4, 0.52))
+              drop-shadow(0 16px 30px rgba(229, 169, 59, 0.55));
     }
     100% {
-      transform: translate(24px, -55px) rotate(32deg) scale(1.26);
-      filter: drop-shadow(0 24px 34px rgba(18, 9, 4, 0.65))
-              drop-shadow(0 10px 20px rgba(229, 169, 59, 0.45));
+      transform: translate(28px, -52px) rotate(30deg) scale(1.38);
+      filter: drop-shadow(0 28px 40px rgba(18, 9, 4, 0.65))
+              drop-shadow(0 12px 24px rgba(229, 169, 59, 0.45));
     }
   }
 
   .product-pop-bottle.is-popped {
-    transform: translate(24px, -55px) rotate(32deg) scale(1.26);
+    transform: translate(28px, -52px) rotate(30deg) scale(1.38);
     animation: bottleAirFloatMobile 4.4s ease-in-out 1.5s infinite;
   }
 
@@ -3794,35 +3797,43 @@ ul, ol {
   }
 
   .product-stage-card {
-    height: 330px;
-    max-width: 290px;
-    margin: 18px auto 10px;
+    height: 375px;
+    max-width: 340px;
+    margin: 20px auto 12px;
+  }
+
+  .product-batch-tag {
+    top: 14px;
+    left: 14px;
+    font-size: 0.70rem;
+    padding: 4px 10px;
   }
 
   .product-pop-bottle {
-    max-height: 250px;
+    max-height: 320px;
+    max-width: 88%;
   }
 
   @keyframes bottleAirFloatSmall {
     0% {
-      transform: translate(16px, -45px) rotate(28deg) scale(1.18);
-      filter: drop-shadow(0 20px 28px rgba(18, 9, 4, 0.6))
-              drop-shadow(0 8px 16px rgba(229, 169, 59, 0.4));
+      transform: translate(24px, -46px) rotate(28deg) scale(1.35);
+      filter: drop-shadow(0 24px 34px rgba(18, 9, 4, 0.6))
+              drop-shadow(0 10px 20px rgba(229, 169, 59, 0.4));
     }
     50% {
-      transform: translate(16px, -54px) rotate(28.5deg) scale(1.19);
-      filter: drop-shadow(0 28px 36px rgba(18, 9, 4, 0.5))
-              drop-shadow(0 12px 20px rgba(229, 169, 59, 0.5));
+      transform: translate(24px, -56px) rotate(28.5deg) scale(1.37);
+      filter: drop-shadow(0 32px 42px rgba(18, 9, 4, 0.5))
+              drop-shadow(0 14px 24px rgba(229, 169, 59, 0.5));
     }
     100% {
-      transform: translate(16px, -45px) rotate(28deg) scale(1.18);
-      filter: drop-shadow(0 20px 28px rgba(18, 9, 4, 0.6))
-              drop-shadow(0 8px 16px rgba(229, 169, 59, 0.4));
+      transform: translate(24px, -46px) rotate(28deg) scale(1.35);
+      filter: drop-shadow(0 24px 34px rgba(18, 9, 4, 0.6))
+              drop-shadow(0 10px 20px rgba(229, 169, 59, 0.4));
     }
   }
 
   .product-pop-bottle.is-popped {
-    transform: translate(16px, -45px) rotate(28deg) scale(1.18);
+    transform: translate(24px, -46px) rotate(28deg) scale(1.35);
     animation: bottleAirFloatSmall 4.4s ease-in-out 1.5s infinite;
   }
 
@@ -3945,12 +3956,12 @@ ul, ol {
   }
 
   .product-stage-card {
-    height: 290px;
-    max-width: 260px;
+    height: 340px;
+    max-width: 300px;
   }
 
   .product-pop-bottle {
-    max-height: 220px;
+    max-height: 290px;
   }
 
   .single-pricing-row .rate-highlight {
