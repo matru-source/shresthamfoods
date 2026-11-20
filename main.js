@@ -6,13 +6,13 @@
 // ==========================================================================
 // Configurable Target WhatsApp & Orders Local Database Engine
 // ==========================================================================
-const DEFAULT_WHATSAPP_NUMBER = "919777221665";
+const DEFAULT_WHATSAPP_NUMBER = "";
 const ORDERS_STORAGE_KEY = "shrestham_orders";
-const WHATSAPP_STORAGE_KEY = "shrestham_store_whatsapp";
+const WHATSAPP_STORAGE_KEY = "shrestham_store_whatsapp_v2";
 
 function getStoreWhatsAppNumber() {
   const saved = localStorage.getItem(WHATSAPP_STORAGE_KEY);
-  if (saved && saved !== "919876543210") {
+  if (saved && saved.length >= 10) {
     return saved;
   }
   return DEFAULT_WHATSAPP_NUMBER;
@@ -96,7 +96,7 @@ ${order.itemsDescription}
 ━━━━━━━━━━━━━━━━━━━━━
 _Please confirm my order and share dispatch tracking details._ 🙏`;
 
-  return `https://wa.me/${storePhone}?text=${encodeURIComponent(text)}`;
+  return storePhone ? `https://wa.me/${storePhone}?text=${encodeURIComponent(text)}` : `https://wa.me/?text=${encodeURIComponent(text)}`;
 }
 
 function generateSubscriptionWhatsAppUrl(order, orderId) {
@@ -124,7 +124,7 @@ ${order.notes ? `• *Special Notes:* ${order.notes}\n` : ""}
 ━━━━━━━━━━━━━━━━━━━━━
 _Please enroll our kitchen in the monthly fresh-press replenishment._ 🙏`;
 
-  return `https://wa.me/${storePhone}?text=${encodeURIComponent(text)}`;
+  return storePhone ? `https://wa.me/${storePhone}?text=${encodeURIComponent(text)}` : `https://wa.me/?text=${encodeURIComponent(text)}`;
 }
 
 
